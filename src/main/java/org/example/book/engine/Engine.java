@@ -67,7 +67,7 @@ public final class Engine implements AutoCloseable {
                 deltaUpdate -= 1;
             }
 
-            if (targetUps <= 0 || deltaFps >= 1) {
+            if (targetFps <= 0 || deltaFps >= 1) {
                 renderer.render(window, scene);
                 deltaFps -= 1;
                 window.update();
