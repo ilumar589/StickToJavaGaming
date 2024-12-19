@@ -8,18 +8,22 @@ import org.lwjgl.opengl.GL;
 import static org.lwjgl.opengl.GL11.*;
 
 @NullMarked
-public final class Renderer implements AutoCloseable {
+public record Renderer(SceneRenderer sceneRenderer) implements AutoCloseable {
 
-    public Renderer() {
+    public static Renderer getDefaultRenderer() {
         GL.createCapabilities();
+        return new Renderer(SceneRenderer.getDefaultSceneRenderer());
     }
 
     @Override
     public void close() {
-
+        sceneRenderer.close();
     }
 
     public void render(Window window, Scene scene) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glViewport(0,0, window.getWidth(), window.getHeight());
+
+        sceneRenderer.render(scene);
     }
 }

@@ -22,8 +22,8 @@ public final class Engine implements AutoCloseable {
         targetFps = windowOptions.fps();
         targetUps = windowOptions.ups();
         this.appLogic = appLogic;
-        scene = new Scene();
-        renderer = new Renderer();
+        scene = Scene.getDefaultScene();
+        renderer = Renderer.getDefaultRenderer();
 
         appLogic.init(window, scene, renderer);
         running = true;

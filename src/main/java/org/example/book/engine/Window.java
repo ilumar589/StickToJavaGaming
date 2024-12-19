@@ -119,4 +119,12 @@ public final class Window implements AutoCloseable {
             glfwSetWindowShouldClose(glfwGetCurrentContext(), true);
         }
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }
