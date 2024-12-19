@@ -1,4 +1,4 @@
-package org.example.shader;
+package org.example.book.engine.shader;
 
 import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;

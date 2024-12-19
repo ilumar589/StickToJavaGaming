@@ -1,7 +1,6 @@
 package org.example.book.engine;
 
 import org.jspecify.annotations.NullMarked;
-import org.jspecify.annotations.Nullable;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.system.MemoryUtil;
 import org.tinylog.Logger;
@@ -120,5 +119,4 @@ public final class Window implements AutoCloseable {
             glfwSetWindowShouldClose(glfwGetCurrentContext(), true);
         }
     }
-
 }

@@ -14,7 +14,7 @@ public final class Engine implements AutoCloseable {
     private final Scene scene;
     private final int targetFps;
     private final int targetUps;
-    private boolean running = false;
+    private boolean running;
 
 
     public Engine(String windowTitle, WindowOptions windowOptions, IAppLogic appLogic) {
