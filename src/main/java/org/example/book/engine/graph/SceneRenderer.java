@@ -7,8 +7,7 @@ import org.example.book.engine.shader.ShaderProgram;
 import org.example.book.engine.shader.ShaderTypeEnum;
 import org.jspecify.annotations.NullMarked;
 
-import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 @NullMarked
@@ -33,7 +32,7 @@ public record SceneRenderer(ShaderProgram shaderProgram) implements AutoCloseabl
                 .values()
                 .forEach(mesh -> {
                     glBindVertexArray(mesh.vertexArrayObjectId());
-                    glDrawArrays(GL_TRIANGLES, 0, mesh.numberOfVertices());
+                    glDrawElements(GL_TRIANGLES, mesh.numberOfVertices(), GL_UNSIGNED_INT, 0);
                 });
 
         glBindVertexArray(0);

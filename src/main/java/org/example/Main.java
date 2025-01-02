@@ -1,6 +1,7 @@
 package org.example;
 
 import org.eclipse.collections.api.factory.Lists;
+import org.eclipse.collections.impl.list.mutable.FastList;
 import org.example.book.engine.Engine;
 import org.example.book.engine.WindowOptions;
 import org.example.book.game.GameLogic;
@@ -20,6 +21,7 @@ public final class Main {
 //        parallelSystemRoot();
 //        new GettingStarted();
 //        new HelloTriangle();
+//        eclipseParallelExample();
 
         final var gameLogic = new GameLogic();
         try (final var engine = new Engine("test", WindowOptions.getDefault(), gameLogic)) {
@@ -78,5 +80,24 @@ public final class Main {
 
             i++;
         } while (i < 10);
+    }
+
+    private static void eclipseParallelExample() {
+        final var integers = FastList
+                .newListWith(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+                .asUnmodifiable();
+        int batchSize = 2;
+        try (final var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            final var parallelListIterable = integers.asParallel(executor, batchSize);
+            // deferred evaluation
+            final var evenNumbers = parallelListIterable.select(each -> each % 2 == 0);
+            // deferred evaluation
+            final var evenStrings = evenNumbers.collect(String::valueOf);
+            // forced evaluation
+            final var strings = evenStrings.toList().asUnmodifiable();
+
+            // these deferred actions can be used in an ecs architecture ?
+            System.out.println(strings);
+        }
     }
 }

@@ -18,21 +18,41 @@ public record Mesh(
         ImmutableIntList vertexBufferObjectIds
 ) implements AutoCloseable {
 
-    public static Mesh create(ImmutableFloatList positions, int numberOfVertices) {
+    public static Mesh create(ImmutableFloatList positions,
+                              ImmutableFloatList colors,
+                              ImmutableIntList indices) {
         int vaoId = glGenVertexArrays();
         glBindVertexArray(vaoId);
 
+        final var vboIdList = IntLists.mutable.empty();
+
         // Positions vbo
         int vboId = glGenBuffers();
+        vboIdList.add(vboId);
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
         glBufferData(GL_ARRAY_BUFFER, positions.toArray(), GL_STATIC_DRAW);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
 
+        // color vbo
+        vboId = glGenBuffers();
+        vboIdList.add(vboId);
+        glBindBuffer(GL_ARRAY_BUFFER, vboId);
+        glBufferData(GL_ARRAY_BUFFER, colors.toArray(), GL_STATIC_DRAW);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
+
+        // index vbo
+        vboId = glGenBuffers();
+        vboIdList.add(vboId);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboId);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.toArray(), GL_STATIC_DRAW);
+
+
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
 
-        return new Mesh(numberOfVertices, vaoId, IntLists.immutable.of(vboId));
+        return new Mesh(indices.size(), vaoId, vboIdList.toImmutable());
     }
 
     @Override
